@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+
+  # Local sevices
+  local_app:
+    image: node:latest-alpine
+
+  pulsor:
+    image: node:latest-alpine
+  
+  broker:
+    image: eclipse-mosquitto
+    volumes:
+      - /opt/mosquitto:/mosquitto
+      - /opt/mosquitto/data:/mosquitto/data
+      - /opt/mosquitto/log:/mosquitto/log
+    ports:
+      - 1883:1883
+      - 9001:9001
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+  # ----------
+
+  # Cloud services
+  cloud_app:
+    image: node:latest-alpine
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=db_cloud
+      - MYSQL_ROOT_PASSWORD=admin
+
+  prometheus:
+    image: bitnami/prometheus
+
+  grafana:
+    image: grafana/grafana
+  # ----------
