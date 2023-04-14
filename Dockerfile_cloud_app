@@ -1,0 +1,28 @@
+# Cloud Services
+
+FROM node:18-alpine AS cloud_app-builder
+WORKDIR /usr/app
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm ci
+COPY . .
+#COPY tsconfig*.json ./ /dist /compose /node module
+#COPY src .
+RUN npm run build
+RUN rm -rf node_modules 
+RUN npm ci --omit=dev
+
+FROM node:18-alpine AS cloud_app-run
+ENV NODE_ENV=production
+RUN apk add --no-cache tini
+# OU node dist index
+WORKDIR /usr/app
+#COPY package.json ./
+#COPY package-lock.json ./
+#RUN npm ci --omit=dev
+COPY --from=cloud_app-builder /usr/app/lib/ lib/
+COPY --from=cloud_app-builder /usr/app/node_modules/ node_modules/
+EXPOSE 3000
+ENTRYPOINT [ "/sbin/tini","--", "node", "lib/index.js" ]
+
+# ----------
