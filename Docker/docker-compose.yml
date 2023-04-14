@@ -4,12 +4,29 @@ services:
 
   # Local sevices
   local_app:
-    image: node:latest-alpine
+    container_name: local_app
+    image: local_app
 
-  pulsor:
-    image: node:latest-alpine
+  pulsor1:
+    container_name: pulsor1
+    image: pulsor
+    environment:
+      PULSOR_ID: "0001"
+
+  pulsor2:
+    container_name: pulsor2
+    image: pulsor
+    environment:
+      PULSOR_ID: "0002"
+
+  pulsor3:
+    container_name: pulsor3
+    image: pulsor
+    environment:
+      PULSOR_ID: "0003"
   
   broker:
+    container_name: broker
     image: eclipse-mosquitto
     volumes:
       - /opt/mosquitto:/mosquitto
@@ -20,6 +37,7 @@ services:
       - 9001:9001
 
   redis:
+    container_name: redis
     image: redis
     ports:
       - 6379:6379
@@ -27,17 +45,47 @@ services:
 
   # Cloud services
   cloud_app:
-    image: node:latest-alpine
+    container_name: cloud_app
+    image: cloud_app-run
 
   mysql:
+    container_name: mysql
     image: mysql:5.7
     environment:
       - MYSQL_DATABASE=db_cloud
       - MYSQL_ROOT_PASSWORD=admin
 
   prometheus:
+    container_name: prometheus
     image: bitnami/prometheus
-
+    volumes:
+      - ./../dbstats:/etc/prometheus
+      - dbstats_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+      
   grafana:
-    image: grafana/grafana
+    container_name: grafana
+    image: grafana/grafana:latest
+    environment:
+      - GRAFANA_MYSQL_PASSWORD=password
+      - GF_SECURITY_ADMIN_PASSWORD=secret
+      - GF_ALERTING_EXECUTE_ALERTS=false
+    volumes:
+      - ./../statsapp/datasources/:/usr/share/grafana/conf/provisioning/datasources/
+      - statsapp_data:/var/lib/grafana
+    ports:
+      - 3000:3000
+      
+  mysqld-exporter:
+    container_name: mysqld-exporter
+    image: quay.io/prometheus/mysqld-exporter
+    command:
+     - --collect.info_schema.tablestats
+    environment:
+      - DATA_SOURCE_NAME=root:password@(dbcloud:3306)/
+    ports:
+      - 9104:9104
   # ----------
