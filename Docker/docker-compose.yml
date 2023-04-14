@@ -74,7 +74,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=secret
       - GF_ALERTING_EXECUTE_ALERTS=false
     volumes:
-      - ./../statsapp/datasources/:/usr/share/grafana/conf/provisioning/datasources/
+      - ./../Grafana/datasources/:/usr/share/grafana/conf/provisioning/datasources/
       - statsapp_data:/var/lib/grafana
     ports:
       - 3000:3000
@@ -89,3 +89,19 @@ services:
     ports:
       - 9104:9104
   # ----------
+
+# Volumes
+
+volumes:
+  dbcloud-data:
+  dblocal-data:
+  syncapi-data:
+  broker-data:
+  localapp-data:
+  pulsor1-data:
+  pulsor2-data:
+  pulsor3-data:
+  dbstats_data: {}
+  statsapp_data: {}
+
+# ----------
