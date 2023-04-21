@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Prepare
-        working-directory: ./Cloud_service
+        working-directory: ./Cloud_service/Api
         run: npm ci
       - name: Lint
         uses: mooyoul/tslint-actions@v1.1.1
