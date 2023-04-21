@@ -1,9 +1,11 @@
-# Local Services
+# Pulsor Services
 
 FROM node:18-alpine
 WORKDIR /usr/app
-COPY /pulsor/package.json ./usr/app/package.json
-COPY /pulsor/package-lock.json ./
-RUN npm ci --omit=dev 
-CMD [ "node", "index.js" ]
+COPY /Local_service/Pulsor/package.json ./
+COPY /Local_service/Pulsor/package-lock.json ./
+RUN npm ci --omit=dev
+
+COPY /Local_service/Pulsor/src ./src
+CMD [ "node", "src/index.js" ]
 # ----------

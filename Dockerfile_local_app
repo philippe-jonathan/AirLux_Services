@@ -1,9 +1,11 @@
 # Local Services
 
-FROM node:18-alpine as local_app
+FROM node:18-alpine
 WORKDIR /usr/app
-COPY /localapp/package.json ./
-COPY /localapp/package-lock.json ./
-RUN npm ci --omit=dev 
-CMD [ "node", "index.js" ]
+COPY /Local_service/Local_app/package.json ./
+COPY /Local_service/Local_app/package-lock.json ./
+RUN npm ci --omit=dev
+
+COPY /Local_service/Local_app/src ./src
+CMD [ "node", "src/index.js" ]
 # ----------

@@ -5,33 +5,35 @@ services:
   # Local sevices
   local_app:
     container_name: local_app
-    image: local_app
+    image: jausseran/local_app
+    depends_on:
+      - broker
+      - cloud_app
+      - redis
 
   pulsor1:
     container_name: pulsor1
-    image: pulsor
+    image: jausseran/pulsor
     environment:
       PULSOR_ID: "0001"
 
   pulsor2:
     container_name: pulsor2
-    image: pulsor
+    image: jausseran/pulsor
     environment:
       PULSOR_ID: "0002"
 
   pulsor3:
     container_name: pulsor3
-    image: pulsor
+    image: jausseran/pulsor
     environment:
       PULSOR_ID: "0003"
-  
+      
   broker:
     container_name: broker
     image: eclipse-mosquitto
-    volumes:
-      - /opt/mosquitto:/mosquitto
-      - /opt/mosquitto/data:/mosquitto/data
-      - /opt/mosquitto/log:/mosquitto/log
+    # volumes:
+    #   - ./Local_service/Broker:/mosquitto
     ports:
       - 1883:1883
       - 9001:9001
@@ -39,14 +41,23 @@ services:
   redis:
     container_name: redis
     image: redis
-    ports:
-      - 6379:6379
+    # ports:
+    #   - 6379:6379
+    volumes:
+      - ./Local_service/Redis:/usr/local/etc/redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    #command: redis-server
+    healthcheck:
+        test: ["CMD", "redis-cli","ping"]
+        interval: 2s
+        timeout: 2s
+        retries: 10
   # ----------
 
   # Cloud services
   cloud_app:
     container_name: cloud_app
-    image: cloud_app-run
+    image: jausseran/cloud_api
 
   mysql:
     container_name: mysql
