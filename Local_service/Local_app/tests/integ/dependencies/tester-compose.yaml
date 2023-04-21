@@ -1,0 +1,16 @@
+version: "3.9"
+networks:
+  testinteg:
+    name: testinteg
+services:
+  tester:
+    container_name: "tester"
+    build:
+      context: "../../.."
+      dockerfile: "Dockerfile"
+      target: testinteg
+      network: host
+    environment:
+      DBHOST: mongointeg
+    networks:
+      - testinteg

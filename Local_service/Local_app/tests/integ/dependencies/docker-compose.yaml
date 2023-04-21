@@ -1,0 +1,12 @@
+version: "3.9"
+networks:
+  testinteg:
+    name: testinteg
+services:
+  mogointeg:
+    container_name: mongointeg
+    image: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - testinteg
