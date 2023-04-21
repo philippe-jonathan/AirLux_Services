@@ -6,6 +6,8 @@ jobs:
     timeout-minutes: 3
     steps:
       - uses: actions/checkout@v1
+        with:
+          path: './Cloud_service/Api'
       - name: Prepare
         run: npm ci
       - name: Lint
