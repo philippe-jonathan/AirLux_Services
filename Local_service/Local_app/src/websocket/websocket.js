@@ -1,10 +1,10 @@
 const WebSocket = require('ws');
 
-const ws = new WebSocket('ws://syncapi:6001');
+const ws = new WebSocket('ws://cloud_app:6001');
 
 function start(){
   try {
-    const ws = new WebSocket('ws://syncapi:6001');
+    const ws = new WebSocket('ws://cloud_app:6001');
   
     ws.on('open', function open() {
         console.log(`Client connected to websocket port 6001`);

@@ -9,7 +9,7 @@ services:
     depends_on:
       - broker
       - cloud_app
-      - redis
+      - db_local
 
   pulsor1:
     container_name: pulsor1
@@ -32,21 +32,23 @@ services:
   broker:
     container_name: broker
     image: eclipse-mosquitto
-    # volumes:
-    #   - ./Local_service/Broker:/mosquitto
+    volumes:
+      #- ./../broker/config/:/mosquitto/config/:ro
+      #- ./../broker/log/:/mosquitto/log/
+      - broker-data:/mosquitto/data/
     ports:
       - 1883:1883
       - 9001:9001
 
-  redis:
-    container_name: redis
+  db_local:
+    container_name: db_local
     image: redis
-    # ports:
-    #   - 6379:6379
+    ports:
+      - 6379:6379
     volumes:
       - ./Local_service/Redis:/usr/local/etc/redis
+      - db_local-data:/bitnami/redis/data
     command: redis-server /usr/local/etc/redis/redis.conf
-    #command: redis-server
     healthcheck:
         test: ["CMD", "redis-cli","ping"]
         interval: 2s
@@ -58,35 +60,52 @@ services:
   cloud_app:
     container_name: cloud_app
     image: jausseran/cloud_api
+    ports:
+      - "80:80"
+      - "6001:6001"
+    extra_hosts:
+        host.docker.internal: host-gateway
+    depends_on:
+      - db_cloud
 
-  mysql:
-    container_name: mysql
+  db_cloud:
+    container_name: db_cloud
     image: mysql:5.7
+    volumes:
+      - ./Cloud_service/db_cloud/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./Cloud_service/db_cloud:/etc/mysql/conf.d
+      - db_cloud-data:/var/lib/mysql
+    ports:
+      - 3306:3306
     environment:
-      - MYSQL_DATABASE=db_cloud
+      - MYSQL_DATABASE=AirLuxDB
       - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_CHARSET=utf8mb4
+      - MYSQL_COLLATION=utf8mb4_general_ci
 
-  prometheus:
-    container_name: prometheus
+  db_stats:
+    container_name: db_stat
     image: bitnami/prometheus
     volumes:
-      - ./../dbstats:/etc/prometheus
-      - dbstats_data:/prometheus
+      - ./Cloud_service/Prometheus:/etc/prometheus
+      - db_stats-data:/etc/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
       - 9090:9090
       
-  grafana:
-    container_name: grafana
+  stats_app:
+    container_name: stats_app
     image: grafana/grafana:latest
     environment:
       - GRAFANA_MYSQL_PASSWORD=password
       - GF_SECURITY_ADMIN_PASSWORD=secret
       - GF_ALERTING_EXECUTE_ALERTS=false
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
     volumes:
       - ./../Grafana/datasources/:/usr/share/grafana/conf/provisioning/datasources/
-      - statsapp_data:/var/lib/grafana
+      - stats_app-data:/var/lib/grafana
     ports:
       - 3000:3000
       
@@ -96,7 +115,7 @@ services:
     command:
      - --collect.info_schema.tablestats
     environment:
-      - DATA_SOURCE_NAME=root:password@(dbcloud:3306)/
+      - DATA_SOURCE_NAME=root:password@(db_cloud:3306)/
     ports:
       - 9104:9104
   # ----------
@@ -104,15 +123,10 @@ services:
 # Volumes
 
 volumes:
-  dbcloud-data:
-  dblocal-data:
-  syncapi-data:
+  db_local-data:
   broker-data:
-  localapp-data:
-  pulsor1-data:
-  pulsor2-data:
-  pulsor3-data:
-  dbstats_data: {}
-  statsapp_data: {}
+  db_stats-data: {}
+  db_cloud-data: {}
+  stats_app-data: {}
 
 # ----------

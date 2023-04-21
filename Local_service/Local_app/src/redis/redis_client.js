@@ -6,7 +6,7 @@ const redis = require('redis');
 
 // NOTE - REDIS
 const client = redis.createClient({
-  url: 'redis://dblocal',
+  url: 'redis://db_local',
   port: 6379
 });
 
