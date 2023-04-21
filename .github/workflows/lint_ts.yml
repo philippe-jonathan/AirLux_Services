@@ -10,7 +10,6 @@ jobs:
         working-directory: ./Cloud_service
         run: npm ci
       - name: Lint
-        working-directory: ./Cloud_service
         uses: mooyoul/tslint-actions@v1.1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
