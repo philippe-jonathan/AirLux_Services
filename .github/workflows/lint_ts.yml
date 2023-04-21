@@ -1,10 +1,16 @@
 name: Lint Typescript
 on: [push, pull_request]
 jobs:
-  job:
+  eslint:
+    name: eslint
     runs-on: ubuntu-latest
-    timeout-minutes: 3
     steps:
-      - uses: actions/checkout@v1
-      - name: ESLint (JS/TS) Action 
-        uses: iCrawl/action-eslint@v1
+    - uses: actions/checkout@v1
+    - name: install node v12
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: yarn install
+      run: yarn install
+    - name: eslint
+      uses: icrawl/action-eslint@v1
