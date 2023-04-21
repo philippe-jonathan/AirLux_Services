@@ -9,6 +9,5 @@ jobs:
       - name: Lint
         uses: mooyoul/tslint-actions@v1.1.1
         with:
-          path: './Cloud_service/Api'
           token: ${{ secrets.GITHUB_TOKEN }}
           pattern: '*.ts'
