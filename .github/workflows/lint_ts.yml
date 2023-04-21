@@ -5,12 +5,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
+      working-directory: ./Cloud_service/Api
       - uses: actions/checkout@v1
       - name: Prepare
-        working-directory: ./Cloud_service/Api
         run: npm ci
       - name: Lint
-        uses: mooyoul/tslint-actions@master
+        uses: mooyoul/tslint-actions@v1.1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           pattern: '*.ts'
