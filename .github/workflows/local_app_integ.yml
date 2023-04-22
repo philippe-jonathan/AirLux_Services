@@ -16,5 +16,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the stack
-        working-directory: Local_service/Local_app
-        run: docker-compose -f Local_service/Local_app/tests/integ/dependencies/docker-compose.yaml build
+        working-directory: Local_service/Local_app/tests/integ/dependencies/
+        run: docker-compose build
+      - name: Set container up
+        working-directory: Local_service/Local_app/tests/integ/dependencies/
+        run: docker-compose up -d
