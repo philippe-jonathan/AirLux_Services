@@ -1,4 +1,4 @@
-name: Local app Pull & Push Request
+name: Local app - Unit tests
 
 on:
   push:

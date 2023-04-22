@@ -1,4 +1,4 @@
-name: Docker Compose Actions Workflow
+name: Local app - integ tests
 
 on:
   push:
