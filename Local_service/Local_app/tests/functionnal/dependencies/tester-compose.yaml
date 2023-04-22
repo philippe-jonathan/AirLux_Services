@@ -1,17 +1,14 @@
 version: "3.9"
 networks:
-  testfunc:
-    name: testfunc
+  testinteg:
+    name: testinteg
 services:
   tester:
     container_name: "tester"
     build:
       context: "../../.."
-      dockerfile: "Dockerfile"
-      target: testfunc
+      dockerfile: "Dockerfile_local_app"
+      target: testinteg
       network: host
-    environment:
-      API_HOST: userpetsapi
-      API_PORT: 80
     networks:
-      - testfunc
+      - testinteg

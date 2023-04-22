@@ -3,20 +3,24 @@ networks:
   testfunc:
     name: testfunc
 services:
-  userpetsapi:
-    container_name: "userpetsapi"
-    build:
-      context: "../../.."
-      dockerfile: "Dockerfile"
-      target: run
-      network: host
-    environment:
-      NODE_ENV: "dev"
-      PORT: 80
-      LOG_LEVEL: "debug"
-      LOG_FORMAT: "splat,simple"
-      MOCK_DB: "true"
+  db_local:
+    container_name: db_local
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ../../../../../Local_service/Redis:/usr/local/etc/redis
+    command: redis-server /usr/local/etc/redis/redis.conf
     networks:
       - testfunc
-    ports:
-      - 6800:80
+    
+  tester:
+    container_name: "tester"
+    build:
+      context: "../../../../.."
+      dockerfile: "Dockerfile_local_app"
+      target: testfunc
+    networks:
+      - testfunc
+    depends_on:
+      - db_local

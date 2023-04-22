@@ -7,10 +7,8 @@ services:
     container_name: "tester"
     build:
       context: "../../.."
-      dockerfile: "Dockerfile"
+      dockerfile: "Dockerfile_local_app"
       target: testinteg
       network: host
-    environment:
-      DBHOST: mongointeg
     networks:
       - testinteg
