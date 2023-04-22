@@ -1,4 +1,4 @@
-name: Cloud app Pull & Push Request
+name: Cloud app - Lint
 
 on:
   push:

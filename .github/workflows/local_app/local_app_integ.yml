@@ -1,4 +1,4 @@
-name: Local app - integ tests
+name: Local app - Integration tests
 
 on:
   push:
