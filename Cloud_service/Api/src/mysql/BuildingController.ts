@@ -1,7 +1,7 @@
-import mysql, { Pool } from "mysql2";
+import mysql from "mysql2";
 import { Controller } from "./Controller";
 
-let pool =  mysql.createPool({
+const pool =  mysql.createPool({
   host: 'dbcloud',
   user: 'root',
   password: 'password',
@@ -18,7 +18,7 @@ export class BuildingController implements Controller
       // Use the connection
   
     // SQL query
-    let sql = 'SELECT * FROM buildings';
+    const sql = 'SELECT * FROM buildings';
     connection.query(sql, function(err, result) {
       if (err) throw err;
       console.log(result);
@@ -40,19 +40,19 @@ export class BuildingController implements Controller
   
   
     // SQL query using prepared statement
-    let sql = 'SELECT * FROM buildings WHERE id = ?';
-    let data = [id];
+    const sql = 'SELECT * FROM buildings WHERE id = ?';
+    const data = [id];
   
     connection.execute(sql, data, function(err, result) {
       if (err) throw err;
-      console.log('building deleted successfully');
+      console.log('building deleted successfully : ', result);
     });
     connection.release();
   })
   }
   // Function to insert data into the buildings table
   insert(json: string) {
-    let parsedData = JSON.parse(json);
+    const parsedData = JSON.parse(json);
     // Check for invalid input
     if (!parsedData.id || !parsedData.name || !parsedData.type) {
       console.error('Invalid input. id, name, type and user_id are required fields.');
@@ -60,24 +60,24 @@ export class BuildingController implements Controller
     }
     pool.getConnection(function(err, connection) {
       
-      if (err) { console.log(err); return; };// not connected!
+      if (err) { console.log(err); return; }// not connected!
       // Use the connection
     // SQL query using prepared statement
-    let sqlPivot = 'INSERT INTO user_building (building_id, user_id) VALUES (?, ?)';
-    let pivotData = [parsedData.id, parsedData.user_id];
+    const sqlPivot = 'INSERT INTO user_building (building_id, user_id) VALUES (?, ?)';
+    const pivotData = [parsedData.id, parsedData.user_id];
   
     connection.execute(sqlPivot, pivotData, function(err, result) {
       if (err) console.log(err);
-      else console.log('user_building pivot added successfully');
+      else console.log('user_building pivot added successfully : ', result);
     });
   
     // SQL query using prepared statement
-    let sql = 'INSERT INTO buildings (id, name, type) VALUES (?, ?, ?)';
-    let data = [parsedData.id, parsedData.name, parsedData.type];
+    const sql = 'INSERT INTO buildings (id, name, type) VALUES (?, ?, ?)';
+    const data = [parsedData.id, parsedData.name, parsedData.type];
   
     connection.execute(sql, data, function(err, result) {
       if (err) console.log(err);
-      else console.log('Building added successfully');
+      else console.log('Building added successfully : ', result);
     });
     connection.release();
   })
@@ -85,7 +85,7 @@ export class BuildingController implements Controller
   
   // Function to update data in the buildings table
   update(json: string) {
-    let parsedData = JSON.parse(json);
+    const parsedData = JSON.parse(json);
     pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
         // Use the connection
@@ -97,12 +97,12 @@ export class BuildingController implements Controller
     }
   
     // SQL query using prepared statement
-    let sql = 'UPDATE buildings SET name = ?, type = ? WHERE id = ?';
-    let data = [parsedData.name, parsedData.type, parsedData.id];
+    const sql = 'UPDATE buildings SET name = ?, type = ? WHERE id = ?';
+    const data = [parsedData.name, parsedData.type, parsedData.id];
   
     connection.execute(sql, data, function(err, result) {
       if (err) throw err;
-      console.log('building updated successfully');
+      console.log('building updated successfully : ', result);
     });
     connection.release();
   })
@@ -121,12 +121,12 @@ export class BuildingController implements Controller
   
   
     // SQL query using prepared statement
-    let sql = 'DELETE FROM buildings WHERE id = ?';
-    let data = [id];
+    const sql = 'DELETE FROM buildings WHERE id = ?';
+    const data = [id];
   
     connection.execute(sql, data, function(err, result) {
       if (err) throw err;
-      console.log('building deleted successfully');
+      console.log('building deleted successfully : ', result);
     });
     connection.release();
   })

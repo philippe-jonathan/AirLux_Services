@@ -1,7 +1,7 @@
-import mysql, { Pool } from "mysql2";
+import mysql from "mysql2";
 import { Controller } from "./Controller";
 
-let pool =  mysql.createPool({
+const pool =  mysql.createPool({
   host: 'dbcloud',
   user: 'root',
   password: 'password',
@@ -18,7 +18,7 @@ export class RoomController implements Controller
       // Use the connection
 
     // SQL query
-    let sql = 'SELECT * FROM rooms';
+    const sql = 'SELECT * FROM rooms';
     connection.query(sql, function(err, result) {
       if (err) throw err;
       console.log(result);
@@ -40,19 +40,19 @@ export class RoomController implements Controller
   
   
     // SQL query using prepared statement
-    let sql = 'SELECT * FROM rooms WHERE id = ?';
-    let data = [id];
+    const sql = 'SELECT * FROM rooms WHERE id = ?';
+    const data = [id];
   
     connection.execute(sql, data, function(err, result) {
       if (err) throw err;
-      console.log('rooms deleted successfully');
+      console.log('rooms deleted successfully : ', result);
     });
     connection.release();
   })
   }
   // Function to insert data into the rooms table
   insert(json: string) {
-    let parsedData = JSON.parse(json);
+    const parsedData = JSON.parse(json);
       console.log('id = ' + parsedData.id + ', name = ' + parsedData.name + ', building_id = ' + parsedData.building_id + ' are required fields.');
     // Check for invalid input
     if (!parsedData.id || !parsedData.name || !parsedData.building_id) {
@@ -60,16 +60,16 @@ export class RoomController implements Controller
       return;
     }
     pool.getConnection(function(err, connection) {
-      if (err) { console.log(err); return; };// not connected!
+      if (err) { console.log(err); return; }// not connected!
       // Use the connection
 
     // SQL query using prepared statement
-    let sql = 'INSERT INTO rooms (id, name, building_id) VALUES (?, ?, ?)';
-    let data = [parsedData.id, parsedData.name, parsedData.building_id];
+    const sql = 'INSERT INTO rooms (id, name, building_id) VALUES (?, ?, ?)';
+    const data = [parsedData.id, parsedData.name, parsedData.building_id];
 
     connection.execute(sql, data, function(err, result) {
       if (err) console.log(err);
-      else console.log('Room added successfully');
+      else console.log('Room added successfully : ', result);
     });
     connection.release();
   })
@@ -77,7 +77,7 @@ export class RoomController implements Controller
   
   // Function to update data in the rooms table
   update(json: string) {
-    let parsedData = JSON.parse(json);
+    const parsedData = JSON.parse(json);
     pool.getConnection(function(err, connection) {
       if (err) throw err; // not connected!
       // Use the connection
@@ -89,12 +89,12 @@ export class RoomController implements Controller
   }
 
   // SQL query using prepared statement
-  let sql = 'UPDATE rooms SET name = ?, building_id = ? WHERE id = ?';
-  let data = [parsedData.name, parsedData.building_id, parsedData.id];
+  const sql = 'UPDATE rooms SET name = ?, building_id = ? WHERE id = ?';
+  const data = [parsedData.name, parsedData.building_id, parsedData.id];
 
   connection.execute(sql, data, function(err, result) {
     if (err) throw err;
-    console.log('Room updated successfully');
+    console.log('Room updated successfully : ', result);
   });
   connection.release();
   })
@@ -113,12 +113,12 @@ export class RoomController implements Controller
 
 
     // SQL query using prepared statement
-    let sql = 'DELETE FROM rooms WHERE id = ?';
-    let data = [id];
+    const sql = 'DELETE FROM rooms WHERE id = ?';
+    const data = [id];
 
     connection.execute(sql, data, function(err, result) {
       if (err) throw err;
-      console.log('Room deleted successfully');
+      console.log('Room deleted successfully : ', result);
     });
     connection.release();
   })

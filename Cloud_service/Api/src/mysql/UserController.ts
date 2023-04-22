@@ -1,7 +1,7 @@
-import mysql, { Pool } from "mysql2";
+import mysql  from "mysql2";
 import { Controller } from "./Controller";
 
-let pool =  mysql.createPool({
+const pool =  mysql.createPool({
   host: 'dbcloud',
   user: 'root',
   password: 'password',
@@ -19,7 +19,7 @@ export class UserController implements Controller
       // Use the connection
 
     // SQL query
-    let sql = 'SELECT * FROM users';
+    const sql = 'SELECT * FROM users';
     connection.query(sql, function(err, result) {
       if (err) throw err;
       console.log(result);
@@ -41,12 +41,12 @@ export class UserController implements Controller
   
   
     // SQL query using prepared statement
-    let sql = 'SELECT * FROM users WHERE id = ?';
-    let data = [id];
+    const sql = 'SELECT * FROM users WHERE id = ?';
+    const data = [id];
   
     connection.execute(sql, data, function(err, result) {
       if (err) throw err;
-      console.log('users deleted successfully');
+      console.log('users deleted successfully : ', result);
     });
     connection.release();
   })
@@ -54,7 +54,7 @@ export class UserController implements Controller
   
   // Function to insert data into the users table
   insert(json: string) {
-    let parsedData = JSON.parse(json);
+    const parsedData = JSON.parse(json);
     console.log('id = ' + parsedData.id + ', name = ' + parsedData.name + ', email = ' + parsedData.email+ ', password = ' + parsedData.password + ' are required fields.');
   // Check for invalid input
   if (!parsedData.id || !parsedData.name || !parsedData.email || !parsedData.password) {
@@ -62,16 +62,16 @@ export class UserController implements Controller
     return;
   }
   pool.getConnection(function(err, connection) {
-    if (err) { console.log(err); return; };// not connected!
+    if (err) { console.log(err); return; }// not connected!
     // Use the connection
 
   // SQL query using prepared statement
-  let sql = 'INSERT INTO users (id, name, email, password) VALUES (?, ?, ?, ?)';
-  let data = [parsedData.id, parsedData.name, parsedData.email, parsedData.password];
+  const sql = 'INSERT INTO users (id, name, email, password) VALUES (?, ?, ?, ?)';
+  const data = [parsedData.id, parsedData.name, parsedData.email, parsedData.password];
 
   connection.execute(sql, data, function(err, result) {
     if (err) console.log(err);
-    else console.log('User added successfully');
+    else console.log('User added successfully : ', result);
   });
   connection.release();
   })
@@ -79,7 +79,7 @@ export class UserController implements Controller
   
   // Function to update data in the users table
   update(json: string) {
-    let parsedData = JSON.parse(json);
+    const parsedData = JSON.parse(json);
     pool.getConnection(function(err, connection) {
       if (err) throw err; // not connected!
       // Use the connection
@@ -91,12 +91,12 @@ export class UserController implements Controller
       }
 
       // SQL query using prepared statement
-      let sql = 'UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?';
-      let data = [parsedData.name, parsedData.email, parsedData.password, parsedData.id];
+      const sql = 'UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?';
+      const data = [parsedData.name, parsedData.email, parsedData.password, parsedData.id];
 
       connection.execute(sql, data, function(err, result) {
         if (err) throw err;
-        console.log('User updated successfully');
+        console.log('User updated successfully : ', result);
       });
       connection.release();
     })
@@ -114,12 +114,12 @@ export class UserController implements Controller
 
 
       // SQL query using prepared statement
-      let sql = 'DELETE FROM users WHERE id = ?';
-      let data = [id];
+      const sql = 'DELETE FROM users WHERE id = ?';
+      const data = [id];
 
       connection.execute(sql, data, function(err, result) {
         if (err) throw err;
-        console.log('User deleted successfully');
+        console.log('User deleted successfully : ', result);
       });
       connection.release();
     })

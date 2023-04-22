@@ -1,7 +1,7 @@
-import mysql, { Pool } from "mysql2";
+import mysql  from "mysql2";
 import { Controller } from "./Controller";
 
-let pool =  mysql.createPool({
+const pool =  mysql.createPool({
   host: 'dbcloud',
   user: 'root',
   password: 'password',
@@ -19,9 +19,10 @@ export class CaptorValueController implements Controller
   
       try {
         // SQL query
-        let sql = 'SELECT * FROM captor_values';
+        const sql = 'SELECT * FROM captor_values';
         connection.query(sql, function(err, result) {
-          console.log('captorValues select successfully');
+          if (err) throw err;
+          console.log('captorValues select successfully : ', result);
         });
       } catch (error) {
         console.log(error);
@@ -43,12 +44,12 @@ export class CaptorValueController implements Controller
       if (err) throw err; // not connected!
       try {
         // SQL query using prepared statement
-        let sql = 'SELECT * FROM captor_values WHERE id = ?';
-        let data = [id];
+        const sql = 'SELECT * FROM captor_values WHERE id = ?';
+        const data = [id];
       
         connection.execute(sql, data, function(err, result) {
           if (err) throw err;
-          console.log('captorValues deleted successfully');
+          console.log('captorValues deleted successfully : ', result);
         });
         
       } catch (error) {
@@ -64,7 +65,7 @@ export class CaptorValueController implements Controller
   
 // Function to insert data into the captor_values table
 async insert(json: string) {
-  let parsedData = JSON.parse(json);
+  const parsedData = JSON.parse(json);
   // Check for invalid input
   if (!parsedData.captor_id || !parsedData.value) {
     console.error('Invalid input. captor_id and value are required fields.');
@@ -73,16 +74,16 @@ async insert(json: string) {
   console.log('captor_id = ' + parsedData.captor_id + ', value = ' + parsedData.value + ' are required fields.');
   
       pool.getConnection(async function(err, connection) {
-        if (err) { console.log(err); return; };// not connected!
+        if (err) { console.log(err); return; }// not connected!
         // Use the connection
         try {
           // SQL query using prepared statement
-          let sql = 'INSERT INTO captor_values (captor_id, value) VALUES (?, ?)';
-          let data = [parsedData.captor_id, parsedData.value];
+          const sql = 'INSERT INTO captor_values (captor_id, value) VALUES (?, ?)';
+          const data = [parsedData.captor_id, parsedData.value];
         
-          let caca = await connection.execute(sql, data, function(err, result) {
+          await connection.execute(sql, data, function(err, result) {
             if (err) console.log(err);
-            else console.log('Captor value added successfully');
+            else console.log('Captor value added successfully : ', result);
           });
         }
             
@@ -98,7 +99,7 @@ async insert(json: string) {
 
   // Function to update data in the captor_values table
   update(json: string) {
-    let parsedData = JSON.parse(json);
+    const parsedData = JSON.parse(json);
     pool.getConnection(function(err, connection) {
       if (err) throw err; // not connected!
       // Use the connection
@@ -110,12 +111,12 @@ async insert(json: string) {
         }
       
         // SQL query using prepared statement
-        let sql = 'UPDATE captor_values SET captor_id = ?, value = ? WHERE id = ?';
-        let data = [parsedData.captor_id, parsedData.value, parsedData.id];
+        const sql = 'UPDATE captor_values SET captor_id = ?, value = ? WHERE id = ?';
+        const data = [parsedData.captor_id, parsedData.value, parsedData.id];
       
         connection.execute(sql, data, function(err, result) {
           if (err) throw err;
-          console.log('Captor value updated successfully');
+          console.log('Captor value updated successfully : ', result);
         });
       }
       catch (error) {
@@ -139,12 +140,12 @@ async insert(json: string) {
       // Use the connection
       try{
         // SQL query using prepared statement
-        let sql = 'DELETE FROM captor_values WHERE id = ?';
-        let data = [id];
+        const sql = 'DELETE FROM captor_values WHERE id = ?';
+        const data = [id];
 
         connection.execute(sql, data, function(err, result) {
           if (err) throw err;
-          console.log('captor_values deleted successfully');
+          console.log('captor_values deleted successfully : ', result);
         });
       }
 

@@ -13,7 +13,7 @@ function rawDataToString(data: RawData) {
 
 const wss = new WebSocket.Server({ port: 6001 });
 
-let fsm = new FSM()
+const fsm = new FSM()
 
 wss.on('connection', (ws) => {
     console.log('Client connected');

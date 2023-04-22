@@ -33,7 +33,7 @@ class Context{
         this.captorValues = new CaptorValueController();
         this.done = false;
         console.log(`Controllers : constructor, users = ${this.users}, devices = ${this.devices}`);
-    };
+    }
 }
 
 export class FSM {
@@ -44,7 +44,7 @@ export class FSM {
         this.context = new Context([""]);
         //this.context = new Context(message.split('//'));
         //console.log(`FSM : constructor : context = ${this.context}`);
-    };
+    }
 
     setContext(message: string){
         this.context = new Context(message.split('//'));
@@ -53,7 +53,7 @@ export class FSM {
 
     exitAction = ( state : State, context: string[] ) => {
         // Returning false will cancel the state transition
-        //console.log("FSM : exit action");
+        console.log("FSM : exit action, contex : ", context, ", state : ", state.name);
         return true;
     };
       
@@ -65,7 +65,7 @@ export class FSM {
         } else if ( currentMessage === "tocloud" ) {
             state.trigger( "tocloud" );
         }
-    };
+    }
 
     tableAction ( state : State, context: Context ) {
         const currentMessage = context.actions.shift();
@@ -80,14 +80,14 @@ export class FSM {
             default: break;
         }
         console.log(`FSM : action = table, controller = ${context.currentController}`);
-    };
+    }
     
     parseDataAction ( state : State, context: Context ) {
         context.data = context.actions.shift();
         console.log(`FSM : action = parse, context = {${context}}, data = ${context.data}`);
         //if(data is ok)
         state.trigger( "parse" );
-    };
+    }
     
     statementAction ( state : State, context: Context ) {
         const currentMessage = context.actions.shift();
@@ -105,7 +105,7 @@ export class FSM {
             context.currentController?.remove(context.data);
             state.trigger( "delete" );
         }
-    };
+    }
         
     finalAction ( state : State, context: Context  ) {
         // Can perform some final actions, the state machine is finished running.
@@ -115,7 +115,7 @@ export class FSM {
         context.currentController = undefined;
         context.data = undefined;
         
-    };
+    }
       
     startFsm() : boolean {
         console.log(`FSM : startFsm : context = ${this.context}`);
