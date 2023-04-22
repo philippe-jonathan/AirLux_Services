@@ -32,7 +32,7 @@ jobs:
         run: docker-compose build
       - name: Set redis container up
         working-directory: Local_service/Local_app/tests/integ/dependencies/
-        run: docker-compose up -d db_local
+        run: docker-compose up -d db_local cloud_app
       - name: Set tester container up
         working-directory: Local_service/Local_app/tests/integ/dependencies/
         run: docker-compose up --exit-code-from tester
@@ -46,7 +46,7 @@ jobs:
         run: docker-compose build
       - name: Set redis container up
         working-directory: Local_service/Local_app/tests/functionnal/dependencies/
-        run: docker-compose up -d db_local
+        run: docker-compose up -d db_local cloud_app
       - name: Set tester container up
         working-directory: Local_service/Local_app/tests/functionnal/dependencies/
         run: docker-compose up --exit-code-from tester 
