@@ -1,4 +1,4 @@
-name: Local app - Unit tests
+name: Local app tests
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Cloud app - Lint
+name: Cloud app tests
 
 on:
   push:
