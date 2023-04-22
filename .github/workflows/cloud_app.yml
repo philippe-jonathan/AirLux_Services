@@ -1,0 +1,34 @@
+name: Cloud app Pull & Push Request
+
+on:
+  push:
+    paths:
+      - 'Cloud_service/Api/**'
+  pull_request:
+#    branches:
+#      - 'feat/service-a-*'
+    paths:
+      - 'Cloud_service/Api/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+
+    - name: Install dependencies
+      working-directory: Cloud_service/Api
+      run: npm ci
+
+    - name: Lint with ESLint
+      working-directory: Cloud_service/Api
+      run: npm run lint
+
+      # Fail the workflow if ESLint errors are found
+      if: ${{ failure() || success() }}

@@ -1,4 +1,4 @@
-name: Local app Pull Request
+name: Local app Pull & Push Request
 
 on:
   push:
