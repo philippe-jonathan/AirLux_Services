@@ -1,0 +1,20 @@
+name: Docker Compose Actions Workflow
+
+on:
+  push:
+    paths:
+      - 'Local_service/Local_app/**'
+  pull_request:
+#    branches:
+#      - 'feat/service-a-*'
+    paths:
+      - 'Local_service/Local_app/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the stack
+        working-directory: Local_service/Local_app
+        run: docker-compose -f Local_service/Local_app/tests/integ/dependencies/docker-compose.yaml build
