@@ -20,6 +20,7 @@ jobs:
         run: docker-compose build
       - name: Set redis container up
         working-directory: Local_service/Local_app/tests/integ/dependencies/
-        run: docker-compose up -d
-      - name: Run integ tests
-        run: docker exec -d tester npm run test:integ
+        run: docker-compose up -d db_clocal
+      - name: Set tester container up
+        working-directory: Local_service/Local_app/tests/integ/dependencies/
+        run: docker-compose up tester
