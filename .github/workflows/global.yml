@@ -1,0 +1,24 @@
+name: Local app Pull Request
+
+on:
+  push:
+    paths:
+      - 'Local_service/Local_app/**'
+  pull_request:
+#    branches:
+#      - 'feat/service-a-*'
+    paths:
+      - 'Local_service/Local_app/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci
+        working-directory: Local_service/Local_app
+      - name: Test
+        run: npm run test
+        working-directory: Local_service/Local_app
