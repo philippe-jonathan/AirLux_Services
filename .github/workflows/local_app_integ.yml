@@ -23,4 +23,4 @@ jobs:
         run: docker-compose up -d db_local
       - name: Set tester container up
         working-directory: Local_service/Local_app/tests/integ/dependencies/
-        run: docker-compose up tester
+        run: docker-compose up -d tester
