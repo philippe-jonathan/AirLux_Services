@@ -43,6 +43,11 @@ describe("Connect to Redis database", () => {
       if(err)  console.log("Redis database not connected : " + err);
     })
   })
+  afterAll(async () => {
+    await client.disconnect(function(err) {
+      if(err)  console.log(err);
+    })
+  })
   describe("Test connection and operation", () => {
     beforeAll(async () => {
       await client.set("key", data_send, function(err, reply) {
