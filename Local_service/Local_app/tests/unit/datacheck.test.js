@@ -30,7 +30,7 @@ describe("Testing redis.PostCaptorData", () => {
       result = redis.postCaptorValue(data[0], data[1]);
     })
     test("Data shouldn't be valid", () => {
-      expect(result).toBe(true);
+      expect(result).toBe(false);
     })
   })
   

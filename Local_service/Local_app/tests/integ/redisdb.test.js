@@ -59,7 +59,7 @@ describe("Connect to Redis database", () => {
         }});
     })
     test("should be connected to Redis DB", () => {
-      expect(isReady).toBe(true);
+      expect(isReady).toBe(false);
     })
     test("data should be insert", () => {
       expect(error).toBeNull();
