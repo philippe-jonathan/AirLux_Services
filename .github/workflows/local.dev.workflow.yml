@@ -1,14 +1,12 @@
-name: Local app tests
+name: Local app - dev tests
 
 on:
   push:
     paths:
-      - 'Local_service/Local_app/**'
-  pull_request:
-#    branches:
-#      - 'feat/service-a-*'
-    paths:
-      - 'Local_service/Local_app/**'
+      - 'Local_service/**'
+      - 'Cloud_service/Api/**'
+    branches:
+      - 'dev/**'
 
 jobs:
   unit-tests:
