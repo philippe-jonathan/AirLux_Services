@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 
 describe('WebSocket Connection', () => {
-  test('should connect to WebSocket server', done => {
+  test('should connect to WebSocket server', async done => {
       const ws = new WebSocket('ws://cloud_app:6001');
 
       
@@ -25,6 +25,6 @@ describe('WebSocket Connection', () => {
     ws.on('error', error => {
       done.fail(error);
     });
-
+    await new Promise((r) => setTimeout(r, 6000));
   });
 });
