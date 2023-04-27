@@ -1,14 +1,15 @@
 version: "3.9"
 networks:
-  testinteg:
-    name: testinteg
+  testfunc:
+    name: testfunc
 services:
   tester:
     container_name: "tester"
     build:
-      context: "../../.."
+      context: "../../../../.."
       dockerfile: "Dockerfile_local_app"
-      target: testinteg
-      network: host
+      target: testfunc
     networks:
-      - testinteg
+      - testfunc
+    depends_on:
+      - db_local

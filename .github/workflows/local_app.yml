@@ -30,12 +30,12 @@ jobs:
       - name: Build the stack
         working-directory: Local_service/Local_app/tests/integ/dependencies/
         run: docker-compose build
-      - name: Set redis container up
+      - name: Set necessary container up
         working-directory: Local_service/Local_app/tests/integ/dependencies/
-        run: docker-compose up -d db_local cloud_app
+        run: docker-compose up -d -f docker-compose.yaml
       - name: Set tester container up
         working-directory: Local_service/Local_app/tests/integ/dependencies/
-        run: docker-compose up --exit-code-from tester
+        run: docker-compose up --exit-code-from tester -f tester-compose.yaml
   
   func-tests:
     runs-on: ubuntu-latest
@@ -44,9 +44,9 @@ jobs:
       - name: Build the stack
         working-directory: Local_service/Local_app/tests/functionnal/dependencies/
         run: docker-compose build
-      - name: Set redis container up
-        working-directory: Local_service/Local_app/tests/functionnal/dependencies/
-        run: docker-compose up -d db_local cloud_app
+      - name: Set necessary container up
+        working-directory: Local_service/Local_app/tests/integ/dependencies/
+        run: docker-compose up -d -f docker-compose.yaml
       - name: Set tester container up
-        working-directory: Local_service/Local_app/tests/functionnal/dependencies/
-        run: docker-compose up --exit-code-from tester 
+        working-directory: Local_service/Local_app/tests/integ/dependencies/
+        run: docker-compose up --exit-code-from tester -f tester-compose.yaml

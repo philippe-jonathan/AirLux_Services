@@ -6,9 +6,10 @@ services:
   tester:
     container_name: "tester"
     build:
-      context: "../../.."
+      context: "../../../../.."
       dockerfile: "Dockerfile_local_app"
       target: testinteg
-      network: host
     networks:
       - testinteg
+    depends_on:
+      - db_local

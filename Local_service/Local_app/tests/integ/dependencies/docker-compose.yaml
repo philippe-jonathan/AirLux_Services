@@ -13,17 +13,6 @@ services:
     command: redis-server /usr/local/etc/redis/redis.conf
     networks:
       - testinteg
-    
-  tester:
-    container_name: "tester"
-    build:
-      context: "../../../../.."
-      dockerfile: "Dockerfile_local_app"
-      target: testinteg
-    networks:
-      - testinteg
-    depends_on:
-      - db_local
       
   cloud_app:
     container_name: cloud_app
