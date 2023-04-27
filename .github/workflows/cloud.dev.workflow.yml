@@ -1,13 +1,12 @@
-name: Cloud app tests
+name: Cloud app - dev tests
 
 on:
   push:
-    - branches:
-        - main
-    - paths:
-        - 'Cloud_service/Api/**'
-
-
+    paths:
+      - 'Local_service/Local_app/**'
+      - 'Cloud_service/**'
+    branches:
+      - 'dev/**'
 
 jobs:
   lint:
