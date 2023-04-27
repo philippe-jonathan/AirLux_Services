@@ -1,9 +1,9 @@
 module.exports = {
     "env": {
-        "browser": true,
-        "es2021": true
+        "es2021": true,
+        "node": true
     },
-    "extends": "standard",
+    "extends": "eslint:recommended",
     "overrides": [
     ],
     "parserOptions": {
@@ -11,5 +11,6 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+        "no-undef": "off",
     }
 }
