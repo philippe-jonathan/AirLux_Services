@@ -22,6 +22,8 @@ wss.on('connection', (ws) => {
         console.log(`Received message: ${message}`);
         fsm.setContext(rawDataToString(message));
         fsm.startFsm(); 
+        while(fsm.context.done != true){}
+        ws.send(fsm.context.success ? 'OK' : 'ERROR');
     });
 
     ws.send('Welcome to the server!');

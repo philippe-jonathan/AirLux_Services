@@ -22,6 +22,7 @@ class Context{
     captorValues: CaptorValueController;
 
     done: boolean;
+    success: boolean;
 
     constructor(actions: string[]) {
         this.actions = actions;
@@ -32,6 +33,7 @@ class Context{
         this.captors = new CaptorController();
         this.captorValues = new CaptorValueController();
         this.done = false;
+        this.success = false;
         console.log(`Controllers : constructor, users = ${this.users}, devices = ${this.devices}`);
     }
 }
@@ -112,6 +114,7 @@ export class FSM {
         //perform mysql request and/or send message to local
         console.log(`FSM : final action`);
         context.done = true;
+        context.success = true;
         context.currentController = undefined;
         context.data = undefined;
         

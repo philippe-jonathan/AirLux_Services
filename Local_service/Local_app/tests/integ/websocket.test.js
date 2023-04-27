@@ -8,6 +8,7 @@ describe('WebSocket Connection', () => {
       expect(ws.readyState).toBe(WebSocket.OPEN);
       done();
       ws.close();
+      expect(ws.readyState).toBe(WebSocket.CLOSING || WebSocket.CLOSED);
     });
 
     ws.on('error', error => {
