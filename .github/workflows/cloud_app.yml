@@ -2,13 +2,12 @@ name: Cloud app tests
 
 on:
   push:
-    paths:
-      - 'Cloud_service/Api/**'
-  pull_request:
-#    branches:
-#      - 'feat/service-a-*'
-    paths:
-      - 'Cloud_service/Api/**'
+    - branches:
+        - main
+    - paths:
+        - 'Cloud_service/Api/**'
+
+
 
 jobs:
   lint:
