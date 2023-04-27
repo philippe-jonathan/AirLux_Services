@@ -24,3 +24,16 @@ services:
         host.docker.internal: host-gateway
     networks:
       - testinteg
+
+  broker:
+    container_name: broker
+    image: eclipse-mosquitto
+    volumes:
+      #- ./../broker/config/:/mosquitto/config/:ro
+      #- ./../broker/log/:/mosquitto/log/
+      - broker-data:/mosquitto/data/
+    ports:
+      - 1883:1883
+      - 9001:9001
+    networks:
+      - testinteg
