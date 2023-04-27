@@ -42,6 +42,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set necessary container up
-        run: docker-compose -f "Cloud_service/Api/tests/tests/functionnal/dependencies/docker-compose.yaml" up -d --build
+        run: docker-compose -f "Cloud_service/Api/tests/functionnal/dependencies/docker-compose.yaml" up -d --build
       - name: Set tester container up
-        run: docker-compose -f "Cloud_service/Api/tests/tests/functionnal/dependencies/tester-compose.yaml" up --exit-code-from tester --build
+        run: docker-compose -f "Cloud_service/Api/tests/functionnal/dependencies/tester-compose.yaml" up --exit-code-from tester --build
