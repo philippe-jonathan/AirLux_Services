@@ -17,11 +17,11 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Install dependencies
-      working-directory: Local_service/Local_App
+      working-directory: Local_service/Local_app
       run: npm ci
 
     - name: Lint with ESLint
-      working-directory: Local_service/Local_App
+      working-directory: Local_service/Local_app
       run: npm run lint
 
       # Fail the workflow if ESLint errors are found
