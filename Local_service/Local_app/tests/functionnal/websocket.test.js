@@ -11,6 +11,7 @@ describe('WebSocket Connection', () => {
         let response = message.toString('utf8');
   
         if(response !== 'Welcome to the server!'){
+          console.log('Response for message is : ' + response);
           expect(response).toBe('OK');
         }
       });
