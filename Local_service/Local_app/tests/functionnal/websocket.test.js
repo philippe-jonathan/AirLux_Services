@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 
 describe('WebSocket Connection', () => {
-  test('should connect to WebSocket server', async done => {
+  test('should connect to WebSocket server', done => {
       const ws = new WebSocket('ws://cloud_app:6001');
 
       
@@ -16,7 +16,7 @@ describe('WebSocket Connection', () => {
       }
     });
 
-    ws.on('open', async () => {
+    ws.on('open', () => {
       ws.send(`tocloud//captor_values//{"captor_id": "0001", "value": "23", "created_at": "${new Date().getTime()}"}//insert`);
     });
 
