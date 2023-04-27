@@ -11,11 +11,11 @@ describe('WebSocket Connection', () => {
       if(response !== 'Welcome to the server!'){
         console.log('Response for message is : ' + response);
         expect(response).toBe('OK');
+        done();
       }
     });
 
     ws.on('open', async () => {
-      done();
       ws.send(`tocloud//captor_values//{"captor_id": "0001", "value": "23", "created_at": "${new Date().getTime()}"}//insert`)
       await new Promise((r) => setTimeout(r, 5000));
       ws.close();
@@ -25,6 +25,5 @@ describe('WebSocket Connection', () => {
     ws.on('error', error => {
       done.fail(error);
     });
-    await new Promise((r) => setTimeout(r, 6000));
   });
 });
