@@ -17,7 +17,7 @@ describe('WebSocket Connection', () => {
     });
 
     ws.on('open', async () => {
-      ws.send(`tocloud//captor_values//{"captor_id": "0001", "value": "23", "created_at": "${new Date().getTime()}"}//insert`)
+      ws.send(`tocloud//captor_values//{"captor_id": "0001", "value": "23", "created_at": "${new Date().getTime()}"}//insert`);
     });
 
 
@@ -25,7 +25,7 @@ describe('WebSocket Connection', () => {
       done.fail(error);
     });
 
-    await new Promise((r) => setTimeout(r, 5000));
-    ws.close();
+    //await new Promise((r) => setTimeout(r, 5000));
+    //ws.close();
   });
 });

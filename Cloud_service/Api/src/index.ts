@@ -23,6 +23,7 @@ wss.on('connection', (ws) => {
         fsm.setContext(rawDataToString(message));
         fsm.startFsm(); 
         //while(fsm.context.done != true){}
+        console.log('Send message : ' + fsm.context.success ? 'OK' : 'ERROR');
         ws.send(fsm.context.success ? 'OK' : 'ERROR');
     });
 
