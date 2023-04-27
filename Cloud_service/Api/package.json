@@ -5,7 +5,11 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --ext .ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --detectOpenHandles tests/unit/",
+    "test:all": "jest --detectOpenHandles tests/",
+    "test:func": "jest --detectOpenHandles tests/functionnal/",
+    "test:unit": "jest --detectOpenHandles tests/unit/",
+    "test:integ": "jest --detectOpenHandles tests/integ/"
   },
   "author": "bogoss",
   "license": "ISC",

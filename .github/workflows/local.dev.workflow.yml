@@ -9,6 +9,24 @@ on:
       - 'dev/**'
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      working-directory: Local_service/Local_App
+      run: npm ci
+
+    - name: Lint with ESLint
+      working-directory: Local_service/Local_App
+      run: npm run lint
+
+      # Fail the workflow if ESLint errors are found
+      if: ${{ failure() || success() }}
+
   unit-tests:
     runs-on: ubuntu-latest
     steps:
