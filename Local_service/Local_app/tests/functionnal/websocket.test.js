@@ -14,9 +14,10 @@ describe('WebSocket Connection', () => {
       }
     });
 
-    ws.on('open', () => {
+    ws.on('open', async () => {
       done();
       ws.send(`tocloud//captor_values//{"captor_id": "0001", "value": "23", "created_at": "${new Date().getTime()}"}//insert`)
+      await new Promise((r) => setTimeout(r, 5000));
       ws.close();
     });
 
