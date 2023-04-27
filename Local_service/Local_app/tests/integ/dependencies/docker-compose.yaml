@@ -31,7 +31,6 @@ services:
     volumes:
       #- ./../broker/config/:/mosquitto/config/:ro
       #- ./../broker/log/:/mosquitto/log/
-      - broker-data:/mosquitto/data/
     ports:
       - 1883:1883
       - 9001:9001

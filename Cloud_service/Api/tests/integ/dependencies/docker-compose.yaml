@@ -10,7 +10,6 @@ services:
     volumes:
       - ./Cloud_service/db_cloud/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./Cloud_service/db_cloud:/etc/mysql/conf.d
-      - db_cloud-data:/var/lib/mysql
     ports:
       - 3306:3306
     environment:
@@ -24,10 +23,6 @@ services:
   local_app:
     container_name: local_app
     image: jausseran/local_app
-    depends_on:
-      - broker
-      - cloud_app
-      - db_local
     networks:
       - testinteg
 
@@ -36,7 +31,6 @@ services:
     image: bitnami/prometheus
     volumes:
       - ./Cloud_service/Prometheus:/etc/prometheus
-      - db_stats-data:/etc/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
@@ -55,7 +49,6 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
     volumes:
       - ./../Grafana/datasources/:/usr/share/grafana/conf/provisioning/datasources/
-      - stats_app-data:/var/lib/grafana
     ports:
       - 3000:3000
     networks:
