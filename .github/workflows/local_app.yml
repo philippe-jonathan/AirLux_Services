@@ -27,9 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build the stack
-        working-directory: Local_service/Local_app/tests/integ/dependencies/
-        run: docker-compose build
       - name: Set necessary container up
         run: docker-compose -f "Local_service/Local_app/tests/integ/dependencies/docker-compose.yaml" up -d --build
       - name: Set tester container up

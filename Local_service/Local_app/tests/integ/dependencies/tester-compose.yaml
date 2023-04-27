@@ -11,5 +11,3 @@ services:
       target: testinteg
     networks:
       - testinteg
-    depends_on:
-      - db_local
