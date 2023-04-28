@@ -1,14 +1,23 @@
 import mysql  from "mysql2";
+import { describe, expect, beforeAll, afterAll, test } from '@jest/globals';
 
-const pool =  mysql.createPool({
-    host: 'db_cloud',
-    user: 'root',
-    password: 'password',
-    database: 'AirLuxDB',
-    connectionLimit: 10,
-  });
-  
-pool.getConnection(function(err, connection) {
-    if (err) throw err;
-})
-//Hello World
+describe('Testing MySQL database connection', () => {
+    let connection : mysql.Connection;
+    beforeAll( async () => {
+        connection = await mysql.createConnection({
+          host: 'db_cloud',
+          user: 'root',
+          password: 'password',
+          database: 'AirLuxDB',
+          charset: 'utf8mb4',
+        });
+    });
+    
+    test('Should be connected', () => {
+      expect(connection).toBeDefined();
+    });
+
+    afterAll(async () => {
+      await connection.end();
+    });
+});
