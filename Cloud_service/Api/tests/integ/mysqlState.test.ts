@@ -1,7 +1,7 @@
 import mysql  from "mysql2";
 
 const pool =  mysql.createPool({
-    host: 'mysql://dbcloud',
+    host: 'db_cloud',
     user: 'root',
     password: 'password',
     database: 'AirLuxDB',
