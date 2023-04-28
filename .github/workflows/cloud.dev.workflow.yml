@@ -45,8 +45,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set necessary container up
-        run: docker-compose -f "Cloud_service/Api/tests/integ/dependencies/docker-compose.yaml" up -d --build
+      #- name: Set necessary container up
+      #  run: docker-compose -f "Cloud_service/Api/tests/integ/dependencies/docker-compose.yaml" up -d --build
       - name: Set tester container up
         run: docker-compose -f "Cloud_service/Api/tests/integ/dependencies/tester-compose.yaml" up --exit-code-from tester --build
   
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set necessary container up
-        run: docker-compose -f "Cloud_service/Api/tests/functionnal/dependencies/docker-compose.yaml" up -d --build
+      #- name: Set necessary container up
+      #  run: docker-compose -f "Cloud_service/Api/tests/functionnal/dependencies/docker-compose.yaml" up -d --build
       - name: Set tester container up
         run: docker-compose -f "Cloud_service/Api/tests/functionnal/dependencies/tester-compose.yaml" up --exit-code-from tester --build
