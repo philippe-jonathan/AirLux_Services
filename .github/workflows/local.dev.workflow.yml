@@ -22,7 +22,7 @@ jobs:
 
     - name: Lint with ESLint
       working-directory: Local_service/Local_app
-      run: npm run lint
+      run: yarn run lint
 
       # Fail the workflow if ESLint errors are found
       if: ${{ failure() || success() }}
