@@ -19,6 +19,10 @@ jobs:
     - name: Install dependencies
       working-directory: Local_service/Local_app
       run: npm ci
+      
+    - name: Install eslint
+      working-directory: Local_service/Local_app
+      run: npm install --save-dev eslint
 
     - name: Lint with ESLint
       working-directory: Local_service/Local_app
