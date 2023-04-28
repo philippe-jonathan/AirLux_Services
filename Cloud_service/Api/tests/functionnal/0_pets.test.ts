@@ -8,7 +8,7 @@ describe("Functionnal testing for Pets", () => {
     describe("Ivalid payload", () => {
       let response: any
       let duration: number
-      test("Is should return an error", async () => {
+      test("Is should retur an error", async () => {
         const start = new Date().getTime()
         response = await request(apiUrl)
           .post('/pets')
