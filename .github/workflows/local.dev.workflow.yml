@@ -46,6 +46,17 @@ jobs:
   
   integ-tests:
     runs-on: ubuntu-latest
+    services:
+      db_cloud:
+        network: testinteg
+      local_app:
+        network: testinteg
+      db_stats:
+        network: testinteg
+      stats_app:
+        network: testinteg
+      mysqld-exporter:
+        network: testinteg
     steps:
       - uses: actions/checkout@v2
       - name: Set necessary container up
