@@ -74,7 +74,11 @@ async insert(json: string) {
   console.log('captor_id = ' + parsedData.captor_id + ', value = ' + parsedData.value + ' are required fields.');
   
       pool.getConnection(async function(err, connection) {
-        if (err) { console.log(err); return; }// not connected!
+        if (err) 
+        { 
+          //console.log(err); 
+          return; 
+        }// not connected!
         // Use the connection
         try {
           // SQL query using prepared statement

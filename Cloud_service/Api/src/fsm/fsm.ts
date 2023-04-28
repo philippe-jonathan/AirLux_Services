@@ -22,6 +22,7 @@ class Context{
     captorValues: CaptorValueController;
 
     done: boolean;
+    dataValid: boolean;
     success: boolean;
 
     constructor(actions: string[]) {
@@ -33,6 +34,7 @@ class Context{
         this.captors = new CaptorController();
         this.captorValues = new CaptorValueController();
         this.done = false;
+        this.dataValid = false;
         this.success = false;
         console.log(`Controllers : constructor, users = ${this.users}, devices = ${this.devices}`);
     }
@@ -88,7 +90,14 @@ export class FSM {
         context.data = context.actions.shift();
         console.log(`FSM : action = parse, context = {${context}}, data = ${context.data}`);
         //if(data is ok)
-        state.trigger( "parse" );
+        const parsedData = JSON.parse(context.data!);
+
+        context.dataValid = parsedData.captor_id == null || parsedData.value == null ? false : true;
+        if(context.dataValid)
+            state.trigger( "parse" );
+        else{
+            state.trigger( "final" );
+        }
     }
     
     statementAction ( state : State, context: Context ) {
@@ -114,7 +123,7 @@ export class FSM {
         //perform mysql request and/or send message to local
         console.log(`FSM : final action`);
         context.done = true;
-        context.success = true;
+        context.success = context.dataValid ? true : false;
         context.currentController = undefined;
         context.data = undefined;
         
@@ -142,6 +151,8 @@ export class FSM {
         const insertState = stateMachine.createState( "Insert state", false, this.finalAction);
         const updateState = stateMachine.createState( "Update state", false, this.finalAction);
         const deleteState = stateMachine.createState( "Delete state", false, this.finalAction);
+
+        const errorFinalState = stateMachine.createState( "error end fsm", false, this.finalAction);
         
         
         // TO LOCAL/CLOUD
@@ -170,6 +181,13 @@ export class FSM {
         roomsState.addTransition( "parse", parseDataState );
         captorsState.addTransition( "parse", parseDataState );
         captorValuesState.addTransition( "parse", parseDataState );
+        
+        usersState.addTransition( "final", errorFinalState );
+        devicesState.addTransition( "final", errorFinalState );
+        buildingsState.addTransition( "final", errorFinalState );
+        roomsState.addTransition( "final", errorFinalState );
+        captorsState.addTransition( "final", errorFinalState );
+        captorValuesState.addTransition( "final", errorFinalState );
 
         //FIND STATEMENT
         parseDataState.addTransition( "get", getState );
