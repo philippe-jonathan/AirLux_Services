@@ -9,5 +9,5 @@ const pool =  mysql.createPool({
   });
   
 pool.getConnection(function(err, connection) {
-    if (err) throw err; // not connected!
+    if (err) throw err;
 })
