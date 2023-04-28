@@ -6,7 +6,9 @@ on:
       - 'Local_service/Local_app/**'
       - 'Cloud_service/**'
     branches:
-      - 'dev/**'
+      - 'feat/**'
+      - 'hotfix/**'
+
 
 jobs:
   lint:
