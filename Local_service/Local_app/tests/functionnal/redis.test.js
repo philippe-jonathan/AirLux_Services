@@ -34,7 +34,6 @@ client.on('ready', function () {
   isReady = true;
   console.log('Redis ready');
 });
-let error = null;
 
 
 describe("Connect to Redis database", () => {

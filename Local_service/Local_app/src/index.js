@@ -1,7 +1,6 @@
 const redis = require("./redis/redis_client");
 const ws = require("./websocket/websocket");
 const mqttSub = require("./mqtt/sub");
-const mqttPub = require("./mqtt/pub");
 
 
 mqttSub.on('message', function(topic, message){
