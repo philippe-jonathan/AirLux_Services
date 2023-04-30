@@ -9,8 +9,10 @@ describe('Test MySQL Connection', () => {
       password: 'password',
       database: 'AirLuxDB'
     });
+
+    setTimeout(async () => {
+      await connection.end();
+    }, 1000);
     
-    
-    await connection.end();
   });
 });
