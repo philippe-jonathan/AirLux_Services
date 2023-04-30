@@ -10,6 +10,7 @@ describe('Test MySQL Connection', () => {
       database: 'AirLuxDB'
     });
     
+    
     await connection.end();
   });
 });
