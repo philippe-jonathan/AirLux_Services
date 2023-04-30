@@ -4,7 +4,7 @@ import { describe, test } from '@jest/globals';
 describe('Test MySQL Connection : ', () => {
   test('Should connect to MySQL', async () => {
    await mysql.createConnection({
-      host: 'db_cloud',
+      host: 'dbcloud',
       user: 'root',
       password: 'password',
       database: 'AirLuxDB',
