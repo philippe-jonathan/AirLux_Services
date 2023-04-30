@@ -8,11 +8,6 @@ describe('Test MySQL Connection', () => {
       user: 'root',
       password: 'password',
       database: 'AirLuxDB'
-    });
-
-    setTimeout(async () => {
-      await connection.end();
-    }, 1000);
-    
-  });
+    });    
+  }, 10000);
 });
