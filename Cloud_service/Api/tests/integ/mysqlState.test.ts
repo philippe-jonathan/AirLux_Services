@@ -3,11 +3,12 @@ import { describe, test } from '@jest/globals';
 
 describe('Test MySQL Connection : ', () => {
   test('Should connect to MySQL', async () => {
-    const connection = await mysql.createConnection({
+   await mysql.createConnection({
       host: 'db_cloud',
       user: 'root',
       password: 'password',
-      database: 'AirLuxDB'
+      database: 'AirLuxDB',
+      charset: 'utf8mb4'
     });    
   }, 10000);
 });
