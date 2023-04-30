@@ -45,8 +45,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # - name: Set necessary container up
-      #   run: docker-compose -f "Cloud_service/Api/tests/integ/dependencies/docker-compose.yaml" up -d --build
+      - name: Set necessary container up
+        run: docker-compose -f "Cloud_service/Api/tests/integ/dependencies/docker-compose.yaml" up -d --build
       # - name: Allow tester container to access database
       #   run: sudo ufw allow out 3306/tcp
       - name: Set tester container up

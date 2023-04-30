@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 import { describe, test } from '@jest/globals';
 
-describe('Test MySQL Connection :', () => {
+describe('Test MySQL Connection : ', () => {
   test('Should connect to MySQL', async () => {
    await mysql.createConnection({
       host: 'db_cloud',
