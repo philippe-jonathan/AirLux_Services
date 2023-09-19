@@ -10,26 +10,39 @@ services:
       - broker
       - cloud_app
       - db_local
+    networks:
+      - iotnetwork
+
 
   pulsor1:
     container_name: pulsor1
     image: jausseran/pulsor
     environment:
       PULSOR_ID: "0001"
+    networks:
+      - iotnetwork
+
 
   pulsor2:
     container_name: pulsor2
     image: jausseran/pulsor
     environment:
       PULSOR_ID: "0002"
+    networks:
+      - iotnetwork
+
 
   pulsor3:
     container_name: pulsor3
     image: jausseran/pulsor
     environment:
       PULSOR_ID: "0003"
+    networks:
+      - iotnetwork
+
       
   broker:
+    platform: linux/arm64/v8
     container_name: broker
     image: eclipse-mosquitto
     volumes:
@@ -39,8 +52,12 @@ services:
     ports:
       - 1883:1883
       - 9001:9001
+    networks:
+      - iotnetwork
+
 
   db_local:
+    platform: linux/arm64/v8
     container_name: db_local
     image: redis
     ports:
@@ -54,6 +71,9 @@ services:
         interval: 2s
         timeout: 2s
         retries: 10
+    networks:
+      - iotnetwork
+
   # ----------
 
   # Cloud services
@@ -67,13 +87,16 @@ services:
         host.docker.internal: host-gateway
     depends_on:
       - db_cloud
+    networks:
+      - iotnetwork
+
 
   db_cloud:
     container_name: db_cloud
-    image: mysql:5.7
+    image: mysql:8
     volumes:
-      - ./Cloud_service/db_cloud/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./Cloud_service/db_cloud:/etc/mysql/conf.d
+      - ./Cloud_service/Dbcloud/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./Cloud_service/Dbcloud:/etc/mysql/conf.d
       - db_cloud-data:/var/lib/mysql
     ports:
       - 3306:3306
@@ -82,6 +105,9 @@ services:
       - MYSQL_ROOT_PASSWORD=admin
       - MYSQL_CHARSET=utf8mb4
       - MYSQL_COLLATION=utf8mb4_general_ci
+    networks:
+      - iotnetwork
+
 
   db_stats:
     container_name: db_stat
@@ -93,6 +119,9 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
       - 9090:9090
+    networks:
+      - iotnetwork
+
       
   stats_app:
     container_name: stats_app
@@ -108,17 +137,42 @@ services:
       - stats_app-data:/var/lib/grafana
     ports:
       - 3000:3000
+    networks:
+      - iotnetwork
+
       
+  # mysqld-exporter:
+  #   container_name: mysqld-exporter
+  #   image: quay.io/prometheus/mysqld-exporter
+  #   command:
+  #    - --collect.info_schema.tablestats
+  #   environment:
+  #     - DATA_SOURCE_NAME=root:admin@(db_cloud:3306)/AirLuxDB
+  #   ports:
+  #     - 9104:9104
+  #   links:
+  #     - db_cloud
+  #   depends_on:
+  #     - db_cloud
+  #   networks:
+  #     - iotnetwork
+  #   # Test de config
+  #   volumes:
+  #   - ./Cloud_service/.my.cnf:/root/.my.cnf
+  # ----------
+
   mysqld-exporter:
     container_name: mysqld-exporter
     image: quay.io/prometheus/mysqld-exporter
+    restart: unless-stopped
     command:
-     - --collect.info_schema.tablestats
-    environment:
-      - DATA_SOURCE_NAME=root:password@(db_cloud:3306)/
+    - "--mysqld.username=root:admin"
+    - "--mysqld.address=db_cloud:3306"
     ports:
       - 9104:9104
-  # ----------
+    networks:
+      - iotnetwork
+    
 
 # Volumes
 
@@ -130,3 +184,8 @@ volumes:
   stats_app-data: {}
 
 # ----------
+
+# Networks
+
+networks:
+  iotnetwork:

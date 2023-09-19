@@ -2,9 +2,9 @@ import mysql  from "mysql2";
 import { Controller } from "./Controller";
 
 const pool =  mysql.createPool({
-  host: 'dbcloud',
+  host: 'db_cloud',
   user: 'root',
-  password: 'password',
+  password: 'admin',
   database: 'AirLuxDB',
   connectionLimit: 10,
 });
@@ -53,6 +53,7 @@ export class UserController implements Controller
   }
   
   // Function to insert data into the users table
+  // Function to insert data into the users table
   insert(json: string) {
     const parsedData = JSON.parse(json);
     console.log('id = ' + parsedData.id + ', name = ' + parsedData.name + ', email = ' + parsedData.email+ ', password = ' + parsedData.password + ' are required fields.');
@@ -76,6 +77,7 @@ export class UserController implements Controller
   connection.release();
   })
   }
+
   
   // Function to update data in the users table
   update(json: string) {

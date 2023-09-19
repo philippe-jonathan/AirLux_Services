@@ -44,12 +44,13 @@ export class FSM {
 
     constructor() {
         this.context = new Context([""]);
-        //this.context = new Context(message.split('//'));
+        // this.context = new Context(message.split('//'));
         //console.log(`FSM : constructor : context = ${this.context}`);
     }
 
     setContext(message: string){
         this.context = new Context(message.split('//'));
+        console.log("context: " + this.context);
     }
 
 
@@ -108,6 +109,19 @@ export class FSM {
             state.trigger( "delete" );
         }
     }
+
+    // Nouvelle action pour gérer l'inscription des utilisateurs
+    // registerAction(state: State, context: Context) {
+    //     // Récupérez les données utilisateur de context.data
+    //     console.log("FSM-registerAction: " + context.data);
+    //     if (context.data) {
+    //       // Appelez la méthode d'insertion du contrôleur utilisateur
+    //       context.users.insert(context.data);
+    //     }
+        
+    //     // Continuez vers l'état suivant
+    //     state.trigger('registerComplete');
+    //   }
         
     finalAction ( state : State, context: Context  ) {
         // Can perform some final actions, the state machine is finished running.
@@ -123,6 +137,8 @@ export class FSM {
     startFsm() : boolean {
         console.log(`FSM : startFsm : context = ${this.context}`);
         const stateMachine = new StateMachine('StateMachine', this.context);
+
+        const registerState = stateMachine.createState('Register state', false, this.registerAction);
         
         const directionState = stateMachine.createState( "Direction state", false, this.directionAction, this.exitAction); // Trivial use of exit action as an example.
         
@@ -176,6 +192,8 @@ export class FSM {
         parseDataState.addTransition( "insert", insertState );
         parseDataState.addTransition( "update", updateState );
         parseDataState.addTransition( "delete", deleteState );
+        // Ajoutez une transition depuis l'état parseDataState vers l'état registerState
+        parseDataState.addTransition('registerAction', registerState);
         
         //STATEMENT
         getState.addTransition( "get", getState );
